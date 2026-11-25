@@ -1,9 +1,6 @@
 /* PROPHET brand kit
    Fonts, colours and type sizes taken from the PROPHET site's stylesheet. */
 
-@font-face { font-family: "Cabinet Grotesk"; src: url("../fonts/CabinetGrotesk-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Cabinet Grotesk"; src: url("../fonts/CabinetGrotesk-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Cabinet Grotesk"; src: url("../fonts/CabinetGrotesk-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 
 :root {
   /* Colours */
@@ -23,7 +20,7 @@
   --color-dot-red: #d33f56;
 
   /* Type */
-  --font-cabinet-grotesk: "Cabinet Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-cabinet-grotesk: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --text-h2: 60px;  --text-h2--line-height: 72px;
   --text-h2-mobile: 36px;  --text-h2-mobile--line-height: 44px;
   --text-h3: 40px;  --text-h3--line-height: 52px;

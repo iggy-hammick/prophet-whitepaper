@@ -1,16 +1,17 @@
-/* Welcome hero: dots travelling along the three brand lines.
+/* Welcome hero: dots travelling along the lines in the #hero-lines SVG (now the
+   spirograph; the earlier three brand lines are parked in a comment in index.html).
 
-   Each line's group in
-   the #hero-lines SVG says how its dots move with data-pace:
+   Each line's group says how its dots move with data-pace:
      steady   dots evenly spaced, all moving together at one speed
      random   every dot has its own speed, and drifts a little faster and
               slower, so they bunch up and overtake one another
-   Dots run from one end of a line to the other (both ends are off screen) and
-   start again at the beginning.
+   Dots run from one end of a line to the other and start again at the beginning
+   (the spirograph is a closed loop, so they just keep going round). A random
+   line can say how many dots it carries with data-dots.
 
    Dots take random colours from the brand palette.
 
-   The line marked data-align="title" is tied to the title rather than placed
+   A line marked data-align="title" (used by the brand lines) is tied to the title rather than placed
    from Figma: its lowest horizontal run sits level with the middle of TEAM,
    and its long vertical run lines up with the I in DYNAMICS. It's re-placed
    whenever the screen size or fonts change, since the title and the artwork
@@ -31,7 +32,7 @@
     colours: ['#F26F31', '#3D63DC', '#F9B830', '#18A090', '#FF6767', '#E6EDFE'],
     steadyGap: 150,           // steady lines: distance between dots along the line
     steadySpeed: 70,          // steady lines: speed, units per second
-    randomDots: 14,           // random lines: how many dots per line
+    randomDots: 14,           // random lines: how many dots per line, unless the line sets data-dots
     randomSpeed: [30, 140],   // random lines: slowest and fastest dot
     drift: 0.35               // random lines: how much a dot's speed wanders (0 = constant)
   };
@@ -42,7 +43,7 @@
   var lines = [].map.call(svg.querySelectorAll('g[data-pace]'), function (g) {
     var path = g.querySelector('path'), layer = g.querySelector('.hero27-dots');
     var length = path.getTotalLength(), steady = g.getAttribute('data-pace') === 'steady';
-    var count = steady ? Math.max(1, Math.round(length / SETTINGS.steadyGap)) : SETTINGS.randomDots;
+    var count = steady ? Math.max(1, Math.round(length / SETTINGS.steadyGap)) : (parseInt(g.getAttribute('data-dots'), 10) || SETTINGS.randomDots);
     var dots = [];
     for (var i = 0; i < count; i++) {
       var el = document.createElementNS(NS, 'circle');
