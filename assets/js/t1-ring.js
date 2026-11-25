@@ -5,25 +5,29 @@
      1. three bare rings rise up from below and settle with VERSUS in the
         middle of the middle ring, while the Rated Poised line fades away
      2. coloured dots fade in and travel round the rings (same speed, uneven
-        gaps), "Fast, linear and on track" fades in under Efficiency, and the
-        Empathy headline dims to half strength
-     3. after a little more scroll they swap: "Stopping to relate" fades in
-        under Empathy, Empathy comes back to full strength and Efficiency dims
-        to half, and the dots stop and pulse (soft solid circles growing out,
+        gaps); "Fast, linear, on track." fades and lifts
+        in centred where the Rated line was, with an arrow drawing out from
+        Efficiency to it; Efficiency rises slightly, and the
+        Empathy headline dims to 25%
+     3. after a little more scroll they swap: "Stopping to
+        relate." fades and lifts in there instead, with its arrow from Empathy,
+        which rises and comes back to
+        full strength while Efficiency settles back and dims to 25%, and the
+        dots stop and pulse (soft solid circles growing out,
         each dot at its own pace)
-     4. it holds, then the pale section below slides up over the whole scene
+     4. it holds, then the light blue section below slides up over the whole scene
    Scrolling back up plays it in reverse. The dots keep moving at whatever
    speed the scroll has reached, so they don't freeze when you stop scrolling.
 
    The pinned stretch is worked out from the timings below, so this script sets
-   the height of .t1ring itself; the pale panel (.t1x-panel) overlaps its last
-   screenful in the CSS. With reduced motion nothing pins: the rings sit in
+   the height of .t1ring itself; the block after it (.t1x-after) overlaps its last
+   screenful in the CSS. The ring scene is Tension 1's (Tension 2 has its own platforms scene in
+   t2-table.js, Tension 3 its cluster in t3-cluster.js). With reduced motion nothing pins: the rings sit in
    place with still dots, and both lines of subcopy show. */
 (function () {
   'use strict';
 
-  var pin = document.getElementById('t1-ring');
-  if (!pin) return;
+  function scene(pin) {
   var section = pin.closest('[data-step]') || pin;
   var stage = pin.querySelector('.t1ring-stage');
   var canvas = pin.querySelector('canvas');
@@ -31,6 +35,7 @@
   var rated = pin.querySelector('.t1x-rated');
   var wordEff = pin.querySelector('.t1x-a'), wordEmp = pin.querySelector('.t1x-b');
   var subEff = pin.querySelector('.t1x-sub--eff');
+  var arrows = window.ProphetArrows ? window.ProphetArrows(pin) : null;   // right-angle arrows from the words to the subcopy (t-arrows.js)
   var subEmp = pin.querySelector('.t1x-sub--emp');
   var ctx = canvas.getContext('2d');
 
@@ -48,7 +53,9 @@
     pulseRings: 2,              // ripples on their way out at once, per dot
     pulseSize: 12,              // how far a ripple grows, as a multiple of the dot's size
     pulseOpacity: 0.2,          // pulses are solid circles, starting at this opacity
-    dimWord: 0.5,               // the headline word that isn't in focus drops to this opacity
+    dimWord: 0.25,              // the headline word that isn't in focus drops to this opacity
+    subLift: 24,                // subcopy rises this far as it fades in, px at design size
+    wordLift: 10,               // and the headline word above it rises this far
 
     // Timing, in px of scroll. The rings rise one for one with the scroll, then:
     ratedFade: [0.35, 0.8],     // Rated Poised fades out over this part of the rings' rise
@@ -145,8 +152,16 @@
     var s = SETTINGS;
     rated.style.opacity = (1 - span(at.rise * s.ratedFade[0], at.rise * (s.ratedFade[1] - s.ratedFade[0]))).toFixed(3);
     var effIn = dotsNow(), swap = span(at.effOut, s.swap), dim = 1 - s.dimWord;
-    subEff.style.opacity = (effIn * (1 - span(at.effOut, s.swap * 0.6))).toFixed(3);
-    subEmp.style.opacity = span(at.effOut + s.swap * 0.4, s.swap * 0.6).toFixed(3);
+    var effOut = span(at.effOut, s.swap * 0.6), empIn = span(at.effOut + s.swap * 0.4, s.swap * 0.6);
+    subEff.style.opacity = (effIn * (1 - effOut)).toFixed(3);
+    subEmp.style.opacity = empIn.toFixed(3);
+    if (arrows) arrows.update(effIn, effIn * (1 - effOut), empIn, empIn);
+    // Soft lift: the subcopy rises into place as it fades in, and the word in focus rises a little with it
+    var u = ringPx / 720;   // design px to screen px
+    subEff.style.transform = 'translateY(' + ((1 - effIn) * s.subLift * u).toFixed(1) + 'px)';
+    subEmp.style.transform = 'translateY(' + ((1 - empIn) * s.subLift * u).toFixed(1) + 'px)';
+    wordEff.style.transform = 'translateY(' + (-effIn * (1 - swap) * s.wordLift * u).toFixed(1) + 'px)';
+    wordEmp.style.transform = 'translateY(' + (-swap * s.wordLift * u).toFixed(1) + 'px)';
     // The word not in focus dims (as its colour, so the subcopy under it stays full white)
     wordEmp.style.color = 'rgba(255,255,255,' + (1 - dim * effIn * (1 - swap)).toFixed(3) + ')';
     wordEff.style.color = 'rgba(255,255,255,' + (1 - dim * swap).toFixed(3) + ')';
@@ -224,5 +239,10 @@
   tick();
 
   // Handy for tweaking from the browser console, and for testing
-  window.PROPHET_T1_RING = { settings: SETTINGS, refresh: tick, timing: function () { return at; }, scrolled: function () { return scrolled; }, dots: dots.length };
+  return { settings: SETTINGS, refresh: tick, timing: function () { return at; }, scrolled: function () { return scrolled; }, dots: dots.length };
+  }
+
+  var scenes = [].map.call(document.querySelectorAll('.t1ring:not(.t1ring--table):not(.t1ring--cluster)'), scene);   // Tensions 2 and 3 have their own scripts
+  window.PROPHET_RINGS = scenes;          // one per tension screen
+  window.PROPHET_T1_RING = scenes[0];
 })();
