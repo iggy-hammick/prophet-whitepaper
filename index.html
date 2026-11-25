@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PROPHET Team Dynamics Index 2027 – From stretched to poised</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400&display=swap">
 <link rel="preload" href="assets/fonts/CabinetGrotesk-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/CabinetGrotesk-700.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -160,29 +163,46 @@ body.navy-top #hdr-dl{background:#fff;color:var(--navy);border-color:#fff}
    --u is one design pixel: the 1600 x 960 frame scaled to fit the screen, up or down.
    Sizes are written as design pixels times --u, with a floor so they stay legible on small screens. */
 body.at-welcome .top{display:none}
-.hero27{--u:min(calc(100vw / 1600),calc(100svh / 960));--hero27-x:max(20px,calc(88 * var(--u)));--hero27-bottom:max(48px,calc(104 * var(--u)));position:relative;overflow:hidden;background:#101D46;color:#fff;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
+.hero27{--u:min(calc(100vw / 1600),calc(100svh / 960));--hero27-x:max(20px,calc(80 * var(--u)));--hero27-bottom:max(48px,calc(80 * var(--u)));position:relative;overflow:hidden;background:#101D46;color:#fff;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end}
 .hero27-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .hero27-logo{position:absolute;left:max(20px,calc(32 * var(--u)));top:max(24px,calc(40 * var(--u)));z-index:2;display:block;width:max(150px,calc(195.346 * var(--u)));height:auto}
-.hero27-body{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:max(32px,calc(64 * var(--u)));padding:max(96px,calc(128 * var(--u))) var(--hero27-x) var(--hero27-bottom)}
-.hero27-stats{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px max(16px,calc(24 * var(--u)));font-size:max(16px,calc(24 * var(--u)));line-height:1.58;font-weight:500}
+.hero27-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero27-lines path{fill:none;stroke:#fff;stroke-opacity:.4;stroke-width:1;vector-effect:non-scaling-stroke}
+
+.hero27-body{position:relative;z-index:1;--t:max(52px,min(calc((50vw - var(--hero27-x)) / 5.12),20svh));display:flex;flex-direction:column;align-items:flex-start;padding:max(96px,calc(128 * var(--u))) var(--hero27-x) var(--hero27-bottom);pointer-events:none}
+.hero27-body>*{pointer-events:auto}
+/* Stats: IBM Plex Mono Regular, 72px above the title's cap height at design size */
+.hero27-stats{margin:0 0 max(32px,calc(72 * var(--u)));display:flex;flex-wrap:wrap;align-items:center;gap:8px max(16px,calc(24 * var(--u)));font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:400;font-size:max(14px,calc(20 * var(--u)));line-height:1.9}
 .hero27-stats span{text-box:trim-both cap alphabetic}
 .hero27-stats img{display:block;width:max(8px,calc(12 * var(--u)));height:max(8px,calc(12 * var(--u)))}
-/* Title: Min Sans Bold lettering as outlines (assets/images/hero/title.svg), so the font file isn't served.
-   Sized in em so it scales like the text did: 2.536em tall = cap height to last baseline at 140px design size. */
-.hero27-title{margin:0;font-size:max(52px,calc(140 * var(--u)));line-height:0}
-.hero27-title img{display:block;width:auto;height:2.536em}
-.hero27-q{margin:0;font-size:max(22px,calc(40 * var(--u)));line-height:1.16;font-weight:500;white-space:nowrap;text-box:trim-both cap alphabetic}
-/* CTA: bottom edge on the subheadline's baseline, same side margin as the text */
-.hero27-next{position:absolute;right:var(--hero27-x);bottom:var(--hero27-bottom);z-index:2}
-/* CTA style: 2027 blue, white text, 8px more padding all round than .btn (62px tall at design size) */
-.hero27-next .btn{--btn-gap:max(12px,calc(16 * var(--u)));position:relative;overflow:hidden;min-height:max(52px,calc(62 * var(--u)));padding:0 max(24px,calc(31.5 * var(--u)));gap:var(--btn-gap);font-size:max(16px,calc(18 * var(--u)));background:#3D63DC;border:0;color:#fff}
-/* Hover: a skewed white panel swipes in from the left (Codrops "Mimas" style).
-   The panel carries its own navy copy of the label, so the text changes colour exactly at the swipe edge. */
-.hero27-next .btn-swipe{--slant:max(30px,calc(36 * var(--u)));position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--btn-gap);background:#fff;color:#101D46;pointer-events:none;
-  clip-path:polygon(calc(-1 * var(--slant)) 0,calc(-1 * var(--slant)) 0,0 100%,calc(-1 * var(--slant)) 100%);transition:clip-path .4s cubic-bezier(.3,1,.8,1)}
-.hero27-next .btn:hover .btn-swipe,.hero27-next .btn:focus-visible .btn-swipe{clip-path:polygon(calc(-1 * var(--slant)) 0,100% 0,calc(100% + var(--slant)) 100%,calc(-1 * var(--slant)) 100%)}
-@media (prefers-reduced-motion:reduce){.hero27-next .btn-swipe{transition:none}}
-@media (max-width:820px){.hero27-q{white-space:normal}.hero27-body{padding-bottom:28px}.hero27-next{position:relative;right:auto;bottom:auto;padding:0 20px 40px}}
+/* Title: IBM Plex Sans Light in capitals, 2027 in IBM Plex Mono Medium, trimmed cap height to last baseline.
+   --t is sized from the screen width so the middle of the screen falls between the 2 and the 7 of 2027
+   (about 5.1em from the title's left edge), capped by height so it fits on short, wide screens.
+   Design size 140px: lines 122px apart, DYNAMICS indented 195px with the rosette in front (cap height tall),
+   the arrow 437px in, 2027 starting 549px in. */
+.hero27-title{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;font-weight:300;font-size:var(--t);line-height:.871;text-transform:uppercase;white-space:nowrap;text-box:trim-both cap alphabetic}
+.hero27-line{display:block}
+.hero27-indent{position:relative;padding-left:1.393em}
+.hero27-rosette{position:absolute;left:0;top:var(--rosette-top,.112em);width:.707em;height:auto;animation:hero27-spin 60s linear infinite}
+@keyframes hero27-spin{to{transform:rotate(360deg)}}
+.hero27-last{position:relative;display:flex}
+.hero27-word{min-width:3.921em}
+.hero27-year{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;color:#3D63DC}
+/* Arrow between INDEX and 2027: drawn in from the left behind a mask, once, on page load */
+.hero27-arrow{position:absolute;left:3.121em;bottom:.279em;width:.671em;overflow:hidden;line-height:0}
+.hero27-arrow img{display:block;width:100%;height:auto;animation:hero27-draw 1.1s cubic-bezier(.65,0,.35,1) .6s both}
+@keyframes hero27-draw{from{transform:translateX(-101%)}to{transform:none}}
+/* Bottom row: the question 72px below the title, its baseline on the hero's 80px bottom margin;
+   Let's begin sits bottom right, its bottom edge on the same line */
+.hero27-foot{position:relative;align-self:stretch;margin-top:max(32px,calc(72 * var(--u)))}
+.hero27-q{margin:0;font-family:'IBM Plex Sans',system-ui,sans-serif;font-weight:300;font-size:max(22px,calc(40 * var(--u)));line-height:1;white-space:nowrap;text-box:trim-both cap alphabetic}
+.hero27-go{position:absolute;right:0;bottom:0;display:inline-flex;align-items:center;gap:max(24px,calc(40 * var(--u)));padding:max(20px,calc(32 * var(--u)));border:0;border-radius:4px;background:#3D63DC;color:#fff;cursor:pointer;font-family:'IBM Plex Sans',system-ui,sans-serif;font-weight:400;font-size:max(18px,calc(32 * var(--u)));line-height:1.44;transition:background-color .25s}
+.hero27-go span{text-box:trim-both cap alphabetic}
+.hero27-go img{display:block;width:max(18px,calc(24 * var(--u)));height:auto;transition:transform .3s cubic-bezier(.3,1,.8,1)}
+.hero27-go:hover,.hero27-go:focus-visible{background:#2E51C4}
+.hero27-go:hover img,.hero27-go:focus-visible img{transform:translateX(6px)}
+@media (prefers-reduced-motion:reduce){.hero27-rosette,.hero27-arrow img{animation:none}.hero27-go,.hero27-go img{transition:none}}
+@media (max-width:820px){.hero27-body{padding-bottom:48px}.hero27-title{white-space:normal}.hero27-go{position:static;margin-top:32px}.hero27-q{white-space:normal;line-height:1.2}}
 
 /* welcome (client's original cover styles, still used by the end screen) */
 .cover{min-height:auto}
@@ -268,16 +288,26 @@ body.at-intro .navbar{display:none}
 <!-- ================= WELCOME: title page ================= -->
 <section class="screen on" id="welcome" aria-labelledby="welcome-h">
 <div class="hero27">
+<!-- Spiral background, parked while we test the dot grid:
 <svg class="hero27-art" viewBox="0 0 1600 960" preserveAspectRatio="xMaxYMin slice" aria-hidden="true" data-src="assets/images/hero/spiral.svg" data-split="inner" data-radius="8" data-speed="110" data-dots="8">
 <g transform="translate(407 -1372)"><image href="assets/images/hero/spiral.svg" width="2037" height="2032"/><g class="hero27-dots"></g></g>
+</svg>
+-->
+<svg class="hero27-lines" id="hero-lines" viewBox="0 0 1600 960" preserveAspectRatio="xMaxYMin slice" aria-hidden="true">
+<!-- The three brand lines from Figma (frame 7024:104), placed and flipped as there. data-pace: steady = evenly spaced dots in lockstep, random = each dot its own speed -->
+<g transform="translate(681 488) scale(1 -1)" data-pace="random" data-align="title"><path d="M1456.5 0.5L407.267 0.500026C352.038 0.500027 307.267 45.2716 307.267 100.5V284.9C307.267 340.225 262.345 385.036 207.02 384.9L100.747 384.637C45.4222 384.501 0.499999 429.312 0.5 484.637L0.5 513.5"/><g class="hero27-dots"></g></g>
+<g transform="translate(1618 -112) scale(-1 1)" data-pace="random"><path d="M1456.5 0.5L407.267 0.500028C352.038 0.500029 307.267 45.2716 307.267 100.5V317.121C307.267 372.454 262.332 417.268 206.999 417.12L100.768 416.836C45.4349 416.688 0.499999 461.503 0.5 516.836L0.500001 556.5"/><g class="hero27-dots"></g></g>
+<g transform="matrix(0 1 1 0 1132 -366)" data-pace="steady"><path d="M1478.5 314.5L1183 314.5C1127.77 314.5 1083 269.729 1083 214.5V100.5C1083 45.2715 1038.23 0.499997 983 0.5L638.959 0.500022C583.73 0.500025 538.959 45.2715 538.959 100.5V285.007C538.959 340.29 494.101 385.084 438.818 385.006L100.641 384.531C45.3574 384.453 0.5 429.247 0.5 484.531L0.5 513.5"/><g class="hero27-dots"></g></g>
 </svg>
 <img class="hero27-logo" src="assets/images/hero/logo.svg" alt="PROPHET">
 <div class="hero27-body">
 <p class="hero27-stats"><span>2,001 teams</span><img src="assets/images/hero/stat-dot.svg" alt=""><span>14 sectors</span><img src="assets/images/hero/stat-dot.svg" alt=""><span>3 levels of seniority</span></p>
-<h1 id="welcome-h" class="hero27-title"><img src="assets/images/hero/title.svg" alt="Team Dynamics Index 2027" width="788" height="355"></h1>
+<h1 id="welcome-h" class="hero27-title" aria-label="Team Dynamics Index 2027"><span class="hero27-line" aria-hidden="true">Team</span> <span class="hero27-line hero27-indent" aria-hidden="true"><img class="hero27-rosette" src="assets/images/hero/rosette.svg" alt="" width="100" height="99">Dynamics</span> <span class="hero27-line hero27-last" aria-hidden="true"><span class="hero27-word">Index</span><span class="hero27-arrow"><img src="assets/images/hero/title-arrow.svg" alt="" width="94" height="20"></span><span class="hero27-year">2027</span></span></h1>
+<div class="hero27-foot">
 <p class="hero27-q">How well prepared are teams to navigate 2027?</p>
+<button type="button" class="hero27-go" data-to-approach><span>Let’s begin</span><img src="assets/images/hero/arrow.svg" alt="" width="24" height="20"></button>
 </div>
-<div class="hero27-next"><button type="button" class="btn btn-light" data-to-approach><span>Next: about the index</span><span aria-hidden="true">→</span><span class="btn-swipe" aria-hidden="true"><span>Next: about the index</span><span>→</span></span></button></div>
+</div>
 </div>
 </section>
 
@@ -776,5 +806,6 @@ body.at-intro .navbar{display:none}
 })();
 </script>
 <script src="assets/js/hero-spiral.js" defer></script>
+<script src="assets/js/hero-lines.js" defer></script>
 </body>
 </html>
