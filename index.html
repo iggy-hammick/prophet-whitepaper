@@ -88,7 +88,7 @@ button,select,input,textarea{font-family:inherit}
 .pdfimg{margin:0}
 /* Efficiency versus Empathy: intro lockup, pinned rings (assets/js/t1-ring.js) and pale panel */
 /* Tension 1 intro (Figma 7018:616, 1600 wide). --u = one design pixel, scaled to the screen width. */
-[data-step="t1"],[data-step="t2"],[data-step="t3"]{--u:calc(100vw / 1600);--x:max(20px,calc(82 * var(--u)));--stage:calc(100svh - var(--t1-top,64px) - var(--t1-nav,0px))}
+[data-step="t1"],[data-step="t1b"],[data-step="t2"],[data-step="t3"]{--u:calc(100vw / 1600);--x:max(20px,calc(82 * var(--u)));--stage:calc(100svh - var(--t1-top,64px) - var(--t1-nav,0px))}
 .t1x{background:var(--navy);color:#fff;overflow:clip}
 /* The pinned scene: the lockup sits centred in the stage, the rings (canvas) rise up behind it. t1-ring.js sets .t1ring's height. */
 .t1ring{--ring:min(calc(720 * var(--u)),calc(var(--stage) * .8),83vw);position:relative;height:300svh}
@@ -124,6 +124,36 @@ button,select,input,textarea{font-family:inherit}
 .t1ring.is-static .t1x-sub{opacity:1}
 .t1ring.is-static .t1x-under{gap:16px}.t1ring.is-static .t1x-under>*{grid-area:auto}
 .screen:has(.t1ring.is-static) .t1x-after{margin-top:0}
+
+/* ---------- 01B: the earlier Tension 1 (title scrolls away, rings pin, captions scroll past) ---------- */
+.t1b-intro{display:flex;flex-direction:column;align-items:center;text-align:center;padding:max(64px,calc(147 * var(--u))) var(--x) 0}
+/* --ring: the outer ring, 90% of the Figma 800. t1b-ring.js sets the height from the story's timing. */
+.t1b-ring{--ring:min(calc(720 * var(--u)),calc(var(--stage) * .8),83vw);position:relative;height:300svh;
+  /* the outer ring starts about 200px below the Rated line */
+  margin-top:max(0px,calc(200 * var(--u) - (var(--stage) - var(--ring)) / 2))}
+.t1b-stage{position:sticky;top:var(--t1-top,64px);height:var(--stage);overflow:hidden;
+  --grid-major:rgba(255,255,255,.07);--grid-minor:rgba(255,255,255,.025);
+  background-image:linear-gradient(var(--grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),
+    linear-gradient(var(--grid-minor) 1px,transparent 1px),linear-gradient(90deg,var(--grid-minor) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;background-position:center center}
+.t1b-ring canvas{position:absolute;inset:0;width:100%;height:100%}
+/* Captions: Efficiency on the left, Empathy on the right; t1b-ring.js moves them up through the stage with the scroll */
+.t1b-cap{position:absolute;top:0;display:flex;flex-direction:column;gap:max(14px,calc(26 * var(--u)));visibility:hidden;will-change:transform}
+.t1b-cap--eff{left:var(--x)}
+.t1b-cap--emp{right:max(20px,calc(80 * var(--u)));text-align:right}
+.t1b-h{margin:0;font-size:max(28px,calc(48 * var(--u)));line-height:1;font-weight:500;letter-spacing:-.02em;text-box:trim-both cap alphabetic}
+.t1b-sub{margin:0;font-size:max(16px,calc(24 * var(--u)));line-height:1;font-weight:300;text-box:trim-both cap alphabetic}
+@media (max-width:820px){.t1b-cap--eff,.t1b-cap--emp{left:20px;right:20px;text-align:center}}
+.t1b-ring.is-static{height:auto}
+.t1b-ring.is-static .t1b-stage{position:relative;top:0;height:calc(var(--ring) + 320px)}
+.t1b-ring.is-static .t1b-cap{visibility:visible}
+.t1b-ring.is-static .t1b-cap--eff{top:24px}.t1b-ring.is-static .t1b-cap--emp{top:auto;bottom:24px}
+/* The pale panel slides up over the pinned rings: it overlaps the pin's last screenful */
+.t1b-panel{position:relative;z-index:2;margin-top:calc(-1 * var(--stage));background:#E6EDFE;color:var(--navy);padding:max(56px,calc(157 * var(--u))) var(--x) max(72px,calc(160 * var(--u)))}
+[data-step="t1b"]:has(.t1b-ring.is-static) .t1b-panel{margin-top:0}
+.t1b-panel-text{margin-left:min(calc(605 * var(--u)),45%);max-width:max(320px,calc(709 * var(--u)));display:flex;flex-direction:column;gap:max(20px,calc(34 * var(--u)));font-size:max(18px,calc(24 * var(--u)));line-height:1.417}
+.t1b-panel-text p{margin:0}
+@media (max-width:820px){.t1b-panel-text{margin-left:0}}
 
 /* What follows the scene sits on the light blue background, and slides up over the pinned scene:
    it overlaps the pin's last screenful */
@@ -342,7 +372,7 @@ body.at-intro .navbar{display:none}
 <svg class="hero27-lines" id="hero-lines" viewBox="0 0 1600 960" preserveAspectRatio="xMaxYMin slice" aria-hidden="true">
 <!-- The spirograph from Figma (frame 7027:155), placed as there, then nudged 80 up and 80 right for more room around the title: 1118 across.
      data-pace: steady = evenly spaced dots in lockstep, random = each dot its own speed. data-dots = how many on a random line. -->
-<g class="hero27-spiro" transform="translate(892 -662) scale(.99821)" data-pace="random" data-dots="70"><path d="M560.363 559.984C626.133 647.823 691.724 735.841 759.816 821.893C831.359 912.412 905.164 1009.18 996.826 1080.65C1008.67 1089.88 1021.05 1098.63 1034.26 1105.78C1042.24 1110.12 1050.63 1113.94 1059.38 1116.32C1064.74 1117.81 1070.33 1118.7 1075.87 1118.64C1120.75 1117.81 1118.66 1052.36 1116.4 1021.93C1115.87 1014.42 1115.03 1006.98 1114.08 999.536C1112.77 989.353 1111.11 979.169 1109.26 969.045C1102.95 935.16 1094.14 901.692 1084.08 868.76C1067.71 815.104 1047.83 762.52 1025.87 710.948C952.305 538.486 855.227 371.681 730.948 230.663C662.5 153.067 582.861 79.6988 488.165 35.6305C455.666 20.5043 421.204 9.12989 385.611 4.12753C362.041 0.792634 338.054 0.316314 314.425 3.2939C182.944 19.6706 98.6633 136.869 54.9158 252.34C-14.0684 434.27 -15.973 651.456 44.1426 836.007C72.8909 924.143 119.674 1012.99 196.098 1068.68C214.252 1081.9 233.953 1092.97 254.845 1101.25C365.969 1145.14 484.653 1098.15 576.493 1032.71C663.631 970.594 736.722 889.603 800.706 804.385C895.701 677.778 973.494 537.235 1033.91 391.036C1071.05 301.231 1106.11 205.175 1115.69 107.748C1118.54 78.4483 1123.72 25.2685 1093.78 6.45014C1069.74 -8.67602 1036.88 11.0952 1016.88 24.3753C956.65 64.3941 906.89 121.564 859.81 175.756C658.75 407.174 491.736 665.927 295.735 901.454C239.905 968.51 181.397 1039.97 109.555 1090.77C87.6519 1106.25 45.8686 1133.65 20.632 1109.35C-4.30707 1085.29 1.52595 1036.28 5.03766 1005.79C16.0489 910.625 49.9159 817.307 86.3423 729.349C146.875 583.15 224.727 442.608 319.782 316C383.766 230.722 456.916 149.672 544.054 87.5001C636.251 21.7549 755.59 -25.5293 867.012 19.1941C887.844 27.5314 907.486 38.7272 925.58 52.0668C1001.71 108.165 1048.25 197.314 1076.7 285.569C1136.22 470.299 1133.72 687.485 1064.14 869.177C1019.92 984.588 935.103 1101.19 803.563 1116.85C779.874 1119.65 755.887 1119.12 732.258 1115.66C696.605 1110.48 662.143 1098.99 629.585 1083.68C534.888 1039.26 455.31 965.71 386.861 887.817C263.416 747.274 166.873 581.184 93.7824 409.437C71.8194 357.865 51.9994 305.222 35.6908 251.565C25.6319 218.574 16.8822 185.106 10.6326 151.221C8.78745 141.097 7.1209 130.913 5.81145 120.73C4.85912 113.286 4.08533 105.782 3.54965 98.2789C1.28787 67.6693 -0.55735 2.28148 44.3805 1.3882C49.9755 1.2691 55.5706 2.16241 60.9274 3.6512C69.7364 6.03327 78.1287 9.84465 86.1044 14.1324C99.3179 21.2786 111.698 29.9731 123.602 39.2036C215.323 110.487 289.188 207.318 360.791 297.718C428.882 383.77 494.533 471.728 560.244 559.627"/><g class="hero27-dots"></g></g>
+<g class="hero27-spiro" transform="translate(892 -662) scale(.99821)" data-pace="random" data-dots="105"><path d="M560.363 559.984C626.133 647.823 691.724 735.841 759.816 821.893C831.359 912.412 905.164 1009.18 996.826 1080.65C1008.67 1089.88 1021.05 1098.63 1034.26 1105.78C1042.24 1110.12 1050.63 1113.94 1059.38 1116.32C1064.74 1117.81 1070.33 1118.7 1075.87 1118.64C1120.75 1117.81 1118.66 1052.36 1116.4 1021.93C1115.87 1014.42 1115.03 1006.98 1114.08 999.536C1112.77 989.353 1111.11 979.169 1109.26 969.045C1102.95 935.16 1094.14 901.692 1084.08 868.76C1067.71 815.104 1047.83 762.52 1025.87 710.948C952.305 538.486 855.227 371.681 730.948 230.663C662.5 153.067 582.861 79.6988 488.165 35.6305C455.666 20.5043 421.204 9.12989 385.611 4.12753C362.041 0.792634 338.054 0.316314 314.425 3.2939C182.944 19.6706 98.6633 136.869 54.9158 252.34C-14.0684 434.27 -15.973 651.456 44.1426 836.007C72.8909 924.143 119.674 1012.99 196.098 1068.68C214.252 1081.9 233.953 1092.97 254.845 1101.25C365.969 1145.14 484.653 1098.15 576.493 1032.71C663.631 970.594 736.722 889.603 800.706 804.385C895.701 677.778 973.494 537.235 1033.91 391.036C1071.05 301.231 1106.11 205.175 1115.69 107.748C1118.54 78.4483 1123.72 25.2685 1093.78 6.45014C1069.74 -8.67602 1036.88 11.0952 1016.88 24.3753C956.65 64.3941 906.89 121.564 859.81 175.756C658.75 407.174 491.736 665.927 295.735 901.454C239.905 968.51 181.397 1039.97 109.555 1090.77C87.6519 1106.25 45.8686 1133.65 20.632 1109.35C-4.30707 1085.29 1.52595 1036.28 5.03766 1005.79C16.0489 910.625 49.9159 817.307 86.3423 729.349C146.875 583.15 224.727 442.608 319.782 316C383.766 230.722 456.916 149.672 544.054 87.5001C636.251 21.7549 755.59 -25.5293 867.012 19.1941C887.844 27.5314 907.486 38.7272 925.58 52.0668C1001.71 108.165 1048.25 197.314 1076.7 285.569C1136.22 470.299 1133.72 687.485 1064.14 869.177C1019.92 984.588 935.103 1101.19 803.563 1116.85C779.874 1119.65 755.887 1119.12 732.258 1115.66C696.605 1110.48 662.143 1098.99 629.585 1083.68C534.888 1039.26 455.31 965.71 386.861 887.817C263.416 747.274 166.873 581.184 93.7824 409.437C71.8194 357.865 51.9994 305.222 35.6908 251.565C25.6319 218.574 16.8822 185.106 10.6326 151.221C8.78745 141.097 7.1209 130.913 5.81145 120.73C4.85912 113.286 4.08533 105.782 3.54965 98.2789C1.28787 67.6693 -0.55735 2.28148 44.3805 1.3882C49.9755 1.2691 55.5706 2.16241 60.9274 3.6512C69.7364 6.03327 78.1287 9.84465 86.1044 14.1324C99.3179 21.2786 111.698 29.9731 123.602 39.2036C215.323 110.487 289.188 207.318 360.791 297.718C428.882 383.77 494.533 471.728 560.244 559.627"/><g class="hero27-dots"></g></g>
 <!-- Previous version, the three brand lines (frame 7024:104), parked:
  The three brand lines from Figma (frame 7024:104), placed and flipped as there. data-pace: steady = evenly spaced dots in lockstep, random = each dot its own speed 
 <g transform="translate(681 488) scale(1 -1)" data-pace="random" data-align="title"><path d="M1456.5 0.5L407.267 0.500026C352.038 0.500027 307.267 45.2716 307.267 100.5V284.9C307.267 340.225 262.345 385.036 207.02 384.9L100.747 384.637C45.4222 384.501 0.499999 429.312 0.5 484.637L0.5 513.5"/><g class="hero27-dots"></g></g>
@@ -488,6 +518,30 @@ body.at-intro .navbar{display:none}
 </section>
 
 <!-- ================= TENSION 2 ================= -->
+<!-- ================= 01B: Efficiency versus Empathy, the earlier version (an option for the client) =================
+     The title scrolls away, the rings pin in the middle, and the Efficiency / Empathy captions scroll up past them
+     on the left and right. See assets/js/t1b-ring.js. -->
+<section class="screen" data-step="t1b" aria-labelledby="s-t1b-h">
+<div class="t1x">
+<div class="t1b-intro">
+<p class="t1x-kick">Tension 1 of 3</p>
+<h2 id="s-t1b-h" class="t1x-title"><span class="t1x-a">Efficiency</span><span class="t1x-vs">versus</span><span class="t1x-b">Empathy</span></h2>
+<div class="t1x-under"><p class="t1x-rated">Rated <span class="t1x-pill">Poised</span>: teams are balanced, but AI success depends on rebuilding the human learning curve.</p></div>
+</div>
+<div class="t1b-ring" id="t1b-ring">
+<div class="t1b-stage">
+<canvas aria-hidden="true"></canvas>
+<div class="t1b-cap t1b-cap--eff"><p class="t1b-h">Efficiency</p><p class="t1b-sub">Fast, linear, on track.</p></div>
+<div class="t1b-cap t1b-cap--emp"><p class="t1b-h">Empathy</p><p class="t1b-sub">Stopping to relate.</p></div>
+</div>
+</div>
+</div>
+<div class="t1b-panel"><div class="t1b-panel-text">
+<p>In 2027, the initial scramble to deploy artificial intelligence has given way to a far more demanding reality: the challenge of deep operational integration. The main barrier to AI success is rarely technological; it is interpersonal.</p>
+<p>At first glance, teams appear well balanced, leaning very slightly towards things in our analysis. However, if organisations aren't paying attention, the rapidity of the AI revolution could drastically tip the scales. <b>The race for AI-led efficiency is bypassing the coaching, learning and relationship-building essential for future success.</b></p>
+</div></div>
+</section>
+
 <section class="screen" data-step="t2" aria-labelledby="s-t2-h">
 <div class="t1x">
 <!-- Tension 2 intro: the pinned scene with platforms instead of rings (see assets/js/t2-table.js) -->
@@ -630,9 +684,9 @@ body.at-intro .navbar{display:none}
 <span class="kick">Where teams stand in 2027</span>
 <div class="rgrid">
 <div class="rcard"><span class="rate" style="background:#1F7F74">Poised</span><h3>Efficiency versus Empathy</h3><p>Balanced, but in need of focus before AI erases the relationships sound judgement depends on.</p><button type="button" class="rlink" data-i="0">Revisit 01 →</button></div>
-<div class="rcard"><span class="rate" style="background:#5E7BDB">Precarious</span><h3>Stability versus Agility</h3><p>Appetite for change outruns the capacity to embed it, in a world where change is accelerating.</p><button type="button" class="rlink" data-i="1">Revisit 02 →</button></div>
-<div class="rcard"><span class="rate" style="background:#101D46">Stretched</span><h3>Proximity versus Engagement</h3><p>The biggest gap in our analysis, in need of attention – but who from?</p><button type="button" class="rlink" data-i="2">Revisit 03 →</button></div>
-<div class="rcard"><span class="rate" style="background:#fff;color:#101D46;border:1.5px solid #101D46">By seniority</span><h3>Three levels, three different 2027s</h3><p>The higher the level, the stronger the skew toward Leading: Exco +8.0, Other leadership +5.0, Teams +1.6 (scale ±14).</p><button type="button" class="rlink" data-i="3">Revisit seniority →</button></div>
+<div class="rcard"><span class="rate" style="background:#5E7BDB">Precarious</span><h3>Stability versus Agility</h3><p>Appetite for change outruns the capacity to embed it, in a world where change is accelerating.</p><button type="button" class="rlink" data-i="2">Revisit 02 →</button></div>
+<div class="rcard"><span class="rate" style="background:#101D46">Stretched</span><h3>Proximity versus Engagement</h3><p>The biggest gap in our analysis, in need of attention – but who from?</p><button type="button" class="rlink" data-i="3">Revisit 03 →</button></div>
+<div class="rcard"><span class="rate" style="background:#fff;color:#101D46;border:1.5px solid #101D46">By seniority</span><h3>Three levels, three different 2027s</h3><p>The higher the level, the stronger the skew toward Leading: Exco +8.0, Other leadership +5.0, Teams +1.6 (scale ±14).</p><button type="button" class="rlink" data-i="4">Revisit seniority →</button></div>
 </div>
 </div>
 <div class="dial">
@@ -677,8 +731,8 @@ body.at-intro .navbar{display:none}
 <script>
 (function () {
   'use strict';
-  var STEPS = ['t1', 't2', 't3', 'seniority', 'sectors', 'actions', 'end'];
-  var LABELS = { t1: '01', t2: '02', t3: '03', seniority: 'Seniority', sectors: 'Sectors', actions: 'Actions', end: 'Next steps' };
+  var STEPS = ['t1', 't1b', 't2', 't3', 'seniority', 'sectors', 'actions', 'end'];
+  var LABELS = { t1: '01', t1b: '01B', t2: '02', t3: '03', seniority: 'Seniority', sectors: 'Sectors', actions: 'Actions', end: 'Next steps' };
   var C = { navy: '#101D46', peri: '#5E7BDB', blue: '#2C71AD', teal: '#1F7F74', soft: '#9FB2EE', grey: '#6C748D' };
   var idx = -3;
   var $ = function (id) { return document.getElementById(id); };
@@ -869,7 +923,7 @@ body.at-intro .navbar{display:none}
     if (e.key === 'ArrowLeft') go(idx - 1);
   });
   function fromHash() {
-    var m = (location.hash || '').match(/^#(?:wade\/)?(t1|t2|t3|seniority|sectors|actions|end)$/);
+    var m = (location.hash || '').match(/^#(?:wade\/)?(t1|t1b|t2|t3|seniority|sectors|actions|end)$/);
     if (m) idx = STEPS.indexOf(m[1]); else if (location.hash === '#start') idx = -1; else if (location.hash === '#approach') idx = -2; else if (!location.hash || location.hash === '#welcome') idx = -3; else return;
     render(false);
   }
@@ -884,5 +938,6 @@ body.at-intro .navbar{display:none}
 <script src="assets/js/t1-ring.js" defer></script>
 <script src="assets/js/t2-table.js" defer></script>
 <script src="assets/js/t3-cluster.js" defer></script>
+<script src="assets/js/t1b-ring.js" defer></script>
 </body>
 </html>

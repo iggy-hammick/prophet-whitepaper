@@ -9,7 +9,8 @@
    (the spirograph is a closed loop, so they just keep going round). A random
    line can say how many dots it carries with data-dots.
 
-   Dots take random colours from the brand palette.
+   Dots match the tension heroes (01 and 01B): Prophet blue or coral red,
+   picked at random per dot, at the same size.
 
    A line marked data-align="title" (used by the brand lines) is tied to the title rather than placed
    from Figma: its lowest horizontal run sits level with the middle of TEAM,
@@ -28,12 +29,12 @@
 
   /* ---------- Settings to play with ---------- */
   var SETTINGS = {
-    radius: 5,                // dot radius, 10 across (half Figma's example dot)
-    colours: ['#F26F31', '#3D63DC', '#F9B830', '#18A090', '#FF6767', '#E6EDFE'],
+    radius: 6.4,              // dot radius: the same size as the dots on 01 and 01B at full size (about 13 across)
+    colours: ['#3D63DC', '#FF6767'],   // Prophet Bright blue and Accreditation Coral red, as on 01 and 01B
     steadyGap: 150,           // steady lines: distance between dots along the line
     steadySpeed: 70,          // steady lines: speed, units per second
     randomDots: 14,           // random lines: how many dots per line, unless the line sets data-dots
-    randomSpeed: [30, 140],   // random lines: slowest and fastest dot
+    randomSpeed: [45, 200],   // random lines: slowest and fastest dot
     drift: 0.35               // random lines: how much a dot's speed wanders (0 = constant)
   };
 
